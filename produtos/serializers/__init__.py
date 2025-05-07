@@ -1,0 +1,1 @@
+from .produto_serializer import ProdutoSerializer
