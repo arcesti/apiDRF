@@ -35,3 +35,15 @@ class ProdutoView(APIView):
             serializer.save()
             return Response({ "message": "Objeto atualizado com sucesso", "Objeto atualizado": serializer.data })
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        if not pk:
+            return Response({ "message": "Não há nenhum id no parametro" }, status=400)
+        try:
+            produto = Produto.objects.get(id=pk)
+            produto_data = ProdutoSerializer(produto).data
+            produto.delete()
+            return Response({ "message": "Objeto excluido com sucesso!", "Objeto": produto_data })
+        except Produto.DoesNotExist:
+            return Response({ "message": "Objeto não encontrado!" }, status=404)
+        
